@@ -56,7 +56,10 @@ function updateHtml(qrElements, size = DEFAULT_SIZE) {
 	elQrGenSvg.style.height = `${size}px`;
 	elQrGenSvg.style.width = `${size}px`;
 
-	QrLibQrGen.drawQrCanvas(elQrGenCanvas, 200); // TODO: scale? https://github.com/nayuki/QR-Code-generator/issues/54
+	elQrGenCanvas.style.height = `${size}px`;
+	elQrGenCanvas.style.width = `${size}px`;
+
+	QrLibQrGen.drawQrCanvas(elQrGenCanvas, (size > 200 ? 200 : size)); // TODO: scale? https://github.com/nayuki/QR-Code-generator/issues/54
 }
 
 const qrElements = generateQrCodes();
