@@ -8,101 +8,84 @@
 import * as QrLibQrGen from "./modules/QrLib/qrgen.js";
 import * as QrLibKjua from "./modules/QrLib/kjua.js";
 
-/**
- * Generates an SVG element out of an SVG string.
- *
- * @function
- * @private
- * @param {string} svgString the SVG+XML string
- * @returns {SVGSVGElement}
- */
-function getSvgElement(svgString) {
-    const svg = (new DOMParser()).parseFromString(svgString, "image/svg+xml"); // XMLDocument
-    const elSvg = svg.documentElement; // SVGSVGElement
-
-    // modify SVG
-    // transparent background
-    elSvg.querySelector("rect").setAttribute("fill", "transparent");
-    elSvg.querySelector("path").setAttribute("fill", qrColor);
-
-    return elSvg;
-}
-
-
-
-/**
- * Return new QR code.
- *
- * @function
- * @returns {SVGSVGElement}
- */
-function getQr() {
-    console.info("generated new QrGen qr code");
-
-    try {
-        const qrElem = QRC.encodeText(qrText, qrErrorCorrection);
-        const svgString = qrElem.toSvgString(qrQuietZone);
-        return getSvgElement(svgString);
-    } catch (err) {
-        throw (err === "Data too long")
-            ? new QrError.DataOverflowError() : err;
-    }
-}
-
 const DEFAULT_TEXT = "test2165621538521831253651826214314324321";
-const SIZE = 500;
+const DEFAULT_SIZE = 500;
 
 QrLibKjua.init();
 
-QrLibKjua.set("size", SIZE);
-QrLibKjua.set("crisp", true);
-QrLibKjua.set("qrQuietZone", 1);
-QrLibKjua.set("qrColor", "#000");
-QrLibKjua.set("qrBackgroundColor", "#fff");
-QrLibKjua.set("qrErrorCorrection", "H");
+function generateQrCodes(text = DEFAULT_TEXT, size = DEFAULT_SIZE) {
+	QrLibKjua.set("size", size);
+	QrLibKjua.set("crisp", true);
+	QrLibKjua.set("qrQuietZone", 1);
+	QrLibKjua.set("qrColor", "#000");
+	QrLibKjua.set("qrBackgroundColor", "#fff");
+	QrLibKjua.set("qrErrorCorrection", "H");
 
-QrLibQrGen.set("size", SIZE);
-QrLibQrGen.set("qrQuietZone", 1);
-QrLibQrGen.set("qrColor", "#000");
-QrLibQrGen.set("qrBackgroundColor", "#fff");
-QrLibQrGen.set("qrErrorCorrection", "H");
+	QrLibQrGen.set("size", text);
+	QrLibQrGen.set("qrQuietZone", 1);
+	QrLibQrGen.set("qrColor", "#000");
+	QrLibQrGen.set("qrBackgroundColor", "#fff");
+	QrLibQrGen.set("qrErrorCorrection", "H");
 
-QrLibKjua.set("text", DEFAULT_TEXT);
-QrLibQrGen.set("text", DEFAULT_TEXT);
+	QrLibKjua.set("text", text);
+	QrLibQrGen.set("text", text);
 
-const kjuaCanvasCrisp = QrLibKjua.getQr();
-const qrgenSvg = QrLibQrGen.getQr();
+	const kjuaCanvasCrisp = QrLibKjua.getQr();
+	const qrgenSvg = QrLibQrGen.getQr();
 
-// and without fish & chips
-QrLibKjua.set("crisp", false);
-const kjuaCanvas = QrLibKjua.getQr();
+	// and without fish & chips
+	QrLibKjua.set("crisp", false);
+	const kjuaCanvas = QrLibKjua.getQr();
 
-console.log(kjuaCanvas, qrgenSvg);
+	const qrElements = {kjuaCanvasCrisp, kjuaCanvas, qrgenSvg};
+	console.log(qrElements);
 
-let elTextInput, elKjuaCanvasCrisp, elKjuaCanvas, elQrGenSvg, elQrGenCanvas;
+	return qrElements;
+}
+function updateHtml(qrElements, size = DEFAULT_SIZE) {
+	const {kjuaCanvasCrisp, kjuaCanvas, qrgenSvg} = qrElements;
+
+	elKjuaCanvasCrisp.parentElement.replaceChild(kjuaCanvasCrisp, elKjuaCanvasCrisp);
+	elKjuaCanvas.parentElement.replaceChild(kjuaCanvas, elKjuaCanvas);
+	elQrGenSvg.parentElement.replaceChild(qrgenSvg, elQrGenSvg);
+
+	elKjuaCanvasCrisp = kjuaCanvasCrisp;
+	elKjuaCanvas = kjuaCanvas;
+	elQrGenSvg = qrgenSvg;
+
+	elQrGenSvg.style.height = `${size}px`;
+	elQrGenSvg.style.width = `${size}px`;
+
+	QrLibQrGen.drawQrCanvas(elQrGenCanvas, 200);
+}
+
+const qrElements = generateQrCodes();
+
+let elTextInput, elSizeInput;
+let elKjuaCanvasCrisp, elKjuaCanvas, elQrGenSvg, elQrGenCanvas;
 document.addEventListener('DOMContentLoaded', function() {
 
 // elParent = document.getElementById("qrcode");
 elTextInput = document.getElementById("textInput");
+elSizeInput = document.getElementById("size");
 elKjuaCanvasCrisp = document.getElementById("kjuaCanvasCrisp");
 elKjuaCanvas = document.getElementById("kjuaCanvas");
 elQrGenSvg = document.getElementById("qrgenSvg");
 elQrGenCanvas = document.getElementById("qrgenCanvas");
 
-elKjuaCanvasCrisp.parentElement.replaceChild(kjuaCanvasCrisp, elKjuaCanvasCrisp);
-elKjuaCanvas.parentElement.replaceChild(kjuaCanvas, elKjuaCanvas);
-elQrGenSvg.parentElement.replaceChild(qrgenSvg, elQrGenSvg);
+elTextInput.value = DEFAULT_TEXT;
+elSizeInput.value = DEFAULT_SIZE;
 
-elKjuaCanvasCrisp = kjuaCanvasCrisp;
-elKjuaCanvas = kjuaCanvas;
-elQrGenSvg = qrgenSvg;
+// actually display stuff
+updateHtml(qrElements);
 
-elQrGenSvg.style.height = `${SIZE}px`;
-elQrGenSvg.style.width = `${SIZE}px`;
-
-QrLibQrGen.drawQrCanvas(elQrGenCanvas, 200);
-
-elTextInput.value = DEFAUL_TEXT;
+// allow later update
+function updateQr() {
+	const qrElements = generateQrCodes(elTextInput.value, elSizeInput.value);
+	updateHtml(qrElements);
+}
+elTextInput.addEventListener("input", updateQr);
+elSizeInput.addEventListener("input", updateQr);
 
 }, false);
 
