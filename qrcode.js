@@ -21,7 +21,7 @@ function generateQrCodes(text = DEFAULT_TEXT, size = DEFAULT_SIZE) {
 	QrLibKjua.set("qrBackgroundColor", "#fff");
 	QrLibKjua.set("qrErrorCorrection", "H");
 
-	QrLibQrGen.set("size", text);
+	QrLibKjua.set("size", size);
 	QrLibQrGen.set("qrQuietZone", 1);
 	QrLibQrGen.set("qrColor", "#000");
 	QrLibQrGen.set("qrBackgroundColor", "#fff");
@@ -56,7 +56,7 @@ function updateHtml(qrElements, size = DEFAULT_SIZE) {
 	elQrGenSvg.style.height = `${size}px`;
 	elQrGenSvg.style.width = `${size}px`;
 
-	QrLibQrGen.drawQrCanvas(elQrGenCanvas, 200);
+	QrLibQrGen.drawQrCanvas(elQrGenCanvas, 200); // TODO: scale? https://github.com/nayuki/QR-Code-generator/issues/54
 }
 
 const qrElements = generateQrCodes();
@@ -82,7 +82,7 @@ updateHtml(qrElements);
 // allow later update
 function updateQr() {
 	const qrElements = generateQrCodes(elTextInput.value, elSizeInput.value);
-	updateHtml(qrElements);
+	updateHtml(qrElements, elSizeInput.value);
 }
 elTextInput.addEventListener("input", updateQr);
 elSizeInput.addEventListener("input", updateQr);
