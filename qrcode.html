@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="qrcode.css">
+
+		<script src="lib/kjua-0.5.0.min.js" charset="utf-8"></script>
+		<script src="lib/qrcodegen.js" charset="utf-8"></script>
+
+		<script defer src="qrcode.js" type="module" charset="utf-8"></script>
+	</head>
+	<body>
+		<table>
+		<tr>
+		 <th scope="col">kjuaCanvas</th>
+		 <th scope="col">kjuaCanvasCrisp</th>
+		 <th scope="col">qrgenCanvas</th>
+		 <th scope="col">qrgenSvg</th>
+		</tr>
+		<tr>
+		 <td draggable="true"><img id="kjuaCanvas" src="" width="200" height="200"></img></td>
+		 <td draggable="true"><img id="kjuaCanvasCrisp" src="" width="200" height="200"></img></td>
+		 <td draggable="true"><canvas id="qrgenCanvas" width="500" height="500" style="width: 500px; height: 500px;"></canvas></td>
+		 <td draggable="true"><svg id="qrgenSvg"></svg></td>
+		</tr>
+		</table>
+	</body>
+	<br>
+	<div>
+	 <label for="text">Text:</label>
+	 <input name="textInput" type="text" placeholder="text" required>
+	</div>
+</html>
