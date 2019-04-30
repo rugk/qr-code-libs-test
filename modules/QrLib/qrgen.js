@@ -117,7 +117,18 @@ export function getQr() {
  * @function
  * @returns {SVGSVGElement}
  */
-export function drawQrCanvas(elCanvas, size) {
+export function drawQrCanvas(elCanvas, width) {
     //qrElem = QRC.encodeText(qrText, qrErrorCorrection);
-	qrElem.drawCanvas(size, 1, elCanvas);
+    let scale = width / (qrElem.size + qrQuietZone * 2);
+    console.log("width:", width = (qrElem.size + qrQuietZone * 2) * scale, "scale", scale);
+    
+    // for HiDPI use bigger scale:
+    scale = scale * 2;
+    
+    // maximum scale, after that Firefox has problems
+    if (scale > 200) {
+        scale = 200;
+    }
+    
+	qrElem.drawCanvas(scale, qrQuietZone, elCanvas);
 }
