@@ -65,6 +65,8 @@ function updateHtml(qrElements, size = DEFAULT_SIZE) {
 	elKjuaCanvasCrisp = kjuaCanvasCrisp;
 	elKjuaCanvas = kjuaCanvas;
 	elQrGenSvg = qrgenSvg;
+	elKjuaSvg = kjuaSvg;
+	elKjuaSvgCrisp = kjuaSvgCrisp;
 
 	elQrGenSvg.style.height = `${size}px`;
 	elQrGenSvg.style.width = `${size}px`;
@@ -94,8 +96,8 @@ elKjuaCanvasCrisp = document.getElementById("kjuaCanvasCrisp");
 elKjuaCanvas = document.getElementById("kjuaCanvas");
 elQrGenSvg = document.getElementById("qrgenSvg");
 elQrGenCanvas = document.getElementById("qrgenCanvas");
-elKjuaSvg = document.getElementById("elKjuaSvg");
-elKjuaSvgCrisp = document.getElementById("elKjuaSvgCrisp");
+elKjuaSvg = document.getElementById("kjuaSvg");
+elKjuaSvgCrisp = document.getElementById("kjuaSvgCrisp");
 
 elTextInput.value = DEFAULT_TEXT;
 elSizeInput.value = DEFAULT_SIZE;
