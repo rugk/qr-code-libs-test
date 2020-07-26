@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="../common/common.css">
 		<link rel="stylesheet" href="qrcode.css">
 
-		<script src="lib/kjua-0.5.0.min.js" charset="utf-8"></script>
+		<script src="lib/kjua-svg-1.6.3.min.js" charset="utf-8"></script>
 		<script src="lib/qrcodegen.js" charset="utf-8"></script>
 
 		<script defer src="qrcode.js" type="module" charset="utf-8"></script>
@@ -18,12 +18,16 @@
 		 <th scope="col">kjuaCanvasCrisp</th>
 		 <th scope="col">qrgenCanvas</th>
 		 <th scope="col">qrgenSvg</th>
+         <th scope="col">kjuaSvg</th>
+         <th scope="col">kjuaSvgCrisp</th>
 		</tr>
 		<tr>
 		 <td draggable="true"><img id="kjuaCanvas" src="" width="200" height="200"></img></td>
 		 <td draggable="true"><img id="kjuaCanvasCrisp" src="" width="200" height="200"></img></td>
 		 <td draggable="true"><canvas id="qrgenCanvas" width="500" height="500"></canvas></td>
 		 <td draggable="true"><svg id="qrgenSvg"></svg></td>
+		 <td draggable="true"><svg id="kjuaSvg"></svg></td>
+		 <td draggable="true"><svg id="kjuaSvgCrisp"></svg></td>
 		</tr>
 		</table>
 	</body>

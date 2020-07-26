@@ -1,0 +1,7 @@
+{
+  "manifest_version": 2,
+  "name": "local",
+  "short_name": "local",
+  "version": "0.0",
+  "author": "lol"
+}

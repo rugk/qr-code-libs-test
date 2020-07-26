@@ -34,7 +34,8 @@ const OPTIONS_MAP = Object.freeze({
     "qrColor": "fill",
     "qrBackgroundColor": "back",
     "qrErrorCorrection": "ecLevel",
-    "crisp": "crisp"
+    "crisp": "crisp",
+    "render": "render"
 });
 
 /**
@@ -45,8 +46,8 @@ const OPTIONS_MAP = Object.freeze({
  */
 export function reset() {
     kjuaOptions = {
-        // render method: 'canvas' or 'image'
-        render: "canvas",
+        // render method: 'canvas' or 'image' or 'svg'
+        render: "svg",
 
         // render pixel-perfect lines
         crisp: false,
